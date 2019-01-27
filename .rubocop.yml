@@ -1,0 +1,43 @@
+---
+AllCops:
+  DisplayCopNames:    true
+  DisplayStyleGuide:  true
+  StyleGuideCopsOnly: true
+  TargetRubyVersion:  2.3
+
+Metrics/LineLength:
+  AllowHeredoc: true
+  AllowURI: true
+  URISchemes:
+    - http
+    - https
+  
+Layout/SpaceInLambdaLiteral:
+  Enabled: false
+
+Style/CaseEquality:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/DoubleNegation:
+  Enabled: false # by intention
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/Lambda:
+  Enabled: false
+
+Style/PercentLiteralDelimiters:
+  Enabled: false
+
+Style/RaiseArgs:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes

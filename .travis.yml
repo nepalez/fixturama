@@ -1,0 +1,20 @@
+---
+sudo:     false
+language: ruby
+cache:    bundler
+before_install:
+  - gem install bundler --no-ri --no-rdoc
+  - gem update --system
+script:
+  - bundle exec rspec
+  - bundle exec rubocop
+rvm:
+  - 2.3.0
+  - 2.6.0
+  - ruby-head
+  - jruby-9.1.0.0
+  - jruby-head
+matrix:
+  allow_failures:
+    - rvm: ruby-head
+    - rvm: jruby-head
