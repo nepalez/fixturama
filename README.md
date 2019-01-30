@@ -1,9 +1,12 @@
 # Fixturama
 
+Collection of helpers for dealing with fixtures in RSpec
+
+<a href="https://evilmartians.com/">
+<img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg" alt="Sponsored by Evil Martians" width="236" height="54"></a>
+
 [![Gem Version](https://badge.fury.io/rb/fixturama.svg)][gem]
 [![Build Status](https://travis-ci.org/nepalez/fixturama.svg?branch=master)][travis]
-
-Collection of helpers for dealing with fixtures in RSpec
 
 ## Installation
 
