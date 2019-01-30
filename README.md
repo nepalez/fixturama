@@ -2,10 +2,8 @@
 
 [![Gem Version](https://badge.fury.io/rb/fixturama.svg)][gem]
 [![Build Status](https://travis-ci.org/nepalez/fixturama.svg?branch=master)][travis]
-[![Dependency Status](https://gemnasium.com/nepalez/fixturama.svg)][gemnasium]
-[![Code Climate](https://codeclimate.com/github/nepalez/fixturama/badges/gpa.svg)][codeclimate]
 
-The collection of helpers for dealing with fixtures in RSpec
+Collection of helpers for dealing with fixtures in RSpec
 
 ## Installation
 
@@ -136,6 +134,4 @@ The gem is available as open source under the terms of the [MIT License][license
 
 [gem]: https://rubygems.org/gems/fixturama
 [travis]: https://travis-ci.org/nepalez/fixturama
-[gemnasium]: https://gemnasium.com/nepalez/fixturama
-[codeclimate]: https://codeclimate.com/github/nepalez/fixturama
 [license]: http://opensource.org/licenses/MIT
