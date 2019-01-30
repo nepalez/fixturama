@@ -1,0 +1,8 @@
+---
+- class: Foo
+  chain:
+    - new
+    - bar
+  actions:
+    - return: baz
+    - raise: StandardError

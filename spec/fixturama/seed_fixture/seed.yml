@@ -1,0 +1,7 @@
+---
+- type: foo
+  traits:
+    - bar
+    - baz
+  params:
+    qux: 42
