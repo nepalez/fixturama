@@ -17,7 +17,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency "rspec", "~> 3.0"
   gem.add_runtime_dependency "hashie", "~> 3.6"
 
-  gem.add_development_dependency "rake", ">= 10"
+  gem.add_development_dependency "rake", "~> 10"
   gem.add_development_dependency "rspec-its", "~> 1.2"
   gem.add_development_dependency "rubocop", "~> 0.49"
 end

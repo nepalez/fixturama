@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [0.0.1] - To be released
+## [0.0.1] - [2018-03-01]
 
-This is a first public release.
+This is a first public release with features extracted from production app.
+
+[0.0.1]: https://github.com/nepalez/fixturama/releases/tag/v0.0.1
