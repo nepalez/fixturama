@@ -1,5 +1,10 @@
+begin
+  require "pry"
+rescue LoadError
+  nil
+end
+
 require "bundler/setup"
-require "pry"
 require "fixturama/rspec"
 
 RSpec.configure do |config|
