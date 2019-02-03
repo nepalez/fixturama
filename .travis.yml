@@ -3,7 +3,7 @@ sudo:     false
 language: ruby
 cache:    bundler
 before_install:
-  - gem install bundler --no-ri --no-rdoc
+  - gem install bundler --no-document
   - gem update --system
 script:
   - bundle exec rspec
