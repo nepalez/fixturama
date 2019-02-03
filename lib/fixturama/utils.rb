@@ -1,6 +1,6 @@
 module Fixturama
   module Utils
-    extend self
+    module_function
 
     def symbolize_hash(data)
       Hash(data).transform_keys { |key| key.to_s.to_sym }

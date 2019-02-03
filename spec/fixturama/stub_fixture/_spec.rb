@@ -33,7 +33,11 @@ RSpec.describe "stub_fixture" do
   context "with later invocations" do
     before do
       stub_fixture "#{__dir__}/stub.yml"
-      3.times { Foo.new.bar rescue nil }
+      3.times do begin
+                  Foo.new.bar
+                rescue
+                  nil
+                end end
     end
 
     it "raises an exception" do

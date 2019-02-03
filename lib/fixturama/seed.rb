@@ -1,6 +1,6 @@
 module Fixturama
   module Seed
-    extend self
+    module_function
 
     def call(opts)
       opts   = Utils.symbolize_hash(opts)
