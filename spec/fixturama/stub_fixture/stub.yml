@@ -1,8 +1,47 @@
 ---
-- class: Foo
+- class: Payment
   chain:
     - new
-    - bar
+    - pay
   actions:
-    - return: baz
-    - raise: StandardError
+    - return: -1
+
+- class: Payment
+  chain:
+    - new
+    - pay
+  arguments:
+    - 0
+  actions:
+    - raise: ArgumentError
+
+- class: Payment
+  chain:
+    - new
+    - pay
+  arguments:
+    - 1
+  actions:
+    - return: 8
+
+- class: Payment
+  chain:
+    - new
+    - pay
+  arguments:
+    - 2
+  actions:
+    - return: 4
+    - return: 2
+    - return: 0
+
+- class: Payment
+  chain:
+    - new
+    - pay
+  arguments:
+    - 3
+  actions:
+    - return: 6
+      repeat: 2
+    - return: 0

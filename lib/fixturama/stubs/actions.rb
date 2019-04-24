@@ -1,27 +1,39 @@
 module Fixturama
-  class Stubs
-    class Actions
-      def add(opts)
-        queue.push build(opts)
-        self
-      end
+  #
+  # Factory to provide a specific action from options
+  #
+  module Stubs::Actions
+    extend self
 
-      def call_next
-        queue.pop.tap { |item| queue.push(item.dup) if queue.empty? }.call
-      end
+    require_relative "actions/raise"
+    require_relative "actions/return"
 
-      private
-
-      def build(opts)
-        opts = Utils.symbolize_hash(opts)
-        return Raise.new opts[:raise] if opts.key?(:raise)
-
-        Return.new opts[:return]
-      end
-
-      def queue
-        @queue ||= Queue.new
-      end
+    #
+    # Builds an action
+    # @option [#to_s]  :raise
+    # @option [Object] :return
+    # @option [true]   :call_original
+    # @return [#call] a callable action
+    #
+    def build(stub, **options)
+      check!(stub, options)
+      key, value = options.to_a.first
+      TYPES[key].new(stub, value)
     end
+
+    private
+
+    def check!(stub, options)
+      keys = options.keys & TYPES.keys
+      return if keys.count == 1
+
+      raise SyntaxError, <<~MESSAGE.squish
+        Invalid settings for stubbing message chain #{stub}: #{options}.
+        The action MUST have one and only one of the keys:
+        `#{TYPES.keys.join('`, `')}`.
+      MESSAGE
+    end
+
+    TYPES = { raise: Raise, return: Return }.freeze
   end
 end
