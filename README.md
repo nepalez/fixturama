@@ -1,6 +1,6 @@
 # Fixturama
 
-Collection of helpers for dealing with fixtures in RSpec
+Collection of helpers for dealing with fixtures in [RSpec][rspec]
 
 <a href="https://evilmartians.com/">
 <img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg" alt="Sponsored by Evil Martians" width="236" height="54"></a>
@@ -24,7 +24,7 @@ require "fixturama/rspec"
 The gem defines 3 helpers (support ERB bindings):
 
 - `load_fixture(path, **opts)` to load data from a fixture, and deserialize YAML and JSON
-- `seed_fixture(path_to_yaml, **opts)` to prepare database
+- `seed_fixture(path_to_yaml, **opts)` to prepare database using the [FactoryBot][factory-bot]
 - `stub_fixture(path_to_yaml, **opts)` to stub some classes
 
 ```ruby
@@ -79,6 +79,7 @@ Another opinionated format we use for stubs (`stub_fixture`):
 
 - `class` for stubbed class
 - `chain` for messages chain
+- `arguments` (optional) for specific arguments
 - `actions` for an array of actions for consecutive invocations of the chain
 
 Every action either `return` some value, or `raise` some exception
@@ -87,14 +88,26 @@ Every action either `return` some value, or `raise` some exception
 # ./stubs.yml
 #
 # The first invocation acts like
-# allow(Events).to receive_message_chain(:create).and_return true
 #
-# Afterwards it will act like
-# allow(Events).to receive_message_chain(:create).and_raise AlreadyRegisteredError
+# allow(Notifier)
+#   .to receive_message_chain(:create)
+#   .with(:profileDeleted, 42)
+#   .and_return true
+#
+# then it will act like
+#
+# allow(Notifier)
+#   .to receive_message_chain(:create)
+#   .with(:profileDeleted, 42)
+#   .and_raise AlreadyRegisteredError
+#
 ---
-- class: Events
+- class: Notifier
   chain:
     - create
+  arguments:
+    - :profileDeleted
+    - <%= profile_id %>
   actions:
     - return: true
     - raise: AlreadyRegisteredError
@@ -138,3 +151,5 @@ The gem is available as open source under the terms of the [MIT License][license
 [gem]: https://rubygems.org/gems/fixturama
 [travis]: https://travis-ci.org/nepalez/fixturama
 [license]: http://opensource.org/licenses/MIT
+[factory-bot]: https://github.com/thoughtbot/factory_bot
+[rspec]: https://rspec.info/

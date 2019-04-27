@@ -13,6 +13,11 @@ class Fixturama::Stubs::Actions::Return
 
   def initialize(stub, output)
     @stub = stub
-    @call = output.respond_to?(:dup) ? output.dup : output
+    @call = \
+      begin # in ruby 2.3.0 Fixnum#dup is defined, but raises TypeError
+        output.respond_to?(:dup) ? output.dup : output
+      rescue TypeError
+        output
+      end
   end
 end
