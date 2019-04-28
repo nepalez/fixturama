@@ -58,7 +58,7 @@ end
 
 The seed (`seed_fixture`) file should be a YAML/JSON with opinionated parameters, namely:
 
-- `type` for the name of the [FactoryBot][factory_bot] factory
+- `type` for the name of the [FactoryBot][factory-bot] factory
 - `traits` for the factory traits
 - `params` for parameters of the factory
 
