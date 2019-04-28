@@ -99,7 +99,7 @@ Every action either `return` some value, or `raise` some exception
 # allow(Notifier)
 #   .to receive_message_chain(:create)
 #   .with(:profileDeleted, 42)
-#   .and_raise AlreadyRegisteredError
+#   .and_raise ActiveRecord::RecordNotFound
 #
 ---
 - class: Notifier
@@ -110,7 +110,7 @@ Every action either `return` some value, or `raise` some exception
     - <%= profile_id %>
   actions:
     - return: true
-    - raise: AlreadyRegisteredError
+    - raise: ActiveRecord::RecordNotFound
 ```
 
 ```graphql
