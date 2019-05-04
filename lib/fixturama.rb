@@ -6,9 +6,14 @@ require "rspec"
 require "yaml"
 
 module Fixturama
+  require_relative "fixturama/config"
   require_relative "fixturama/utils"
   require_relative "fixturama/stubs"
   require_relative "fixturama/seed"
+
+  def self.start_ids_from(value)
+    Config.start_ids_from(value)
+  end
 
   def stub_fixture(path, **opts)
     items = load_fixture(path, **opts)
