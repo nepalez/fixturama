@@ -14,6 +14,19 @@ Collection of helpers for dealing with fixtures in [RSpec][rspec]
 gem "fixturama"
 ```
 
+## Configuration
+
+On Rails add offsets to id sequences of database tables.
+
+```ruby
+# spec/rails_helper.rb
+RSpec.configure do |config|
+  config.before(:suite) { Fixturama.start_ids_from 1_000_000 }
+end
+```
+
+Now when you hardcode ids in fixtures (under 1_000_000), they won't conflict with authomatically created ones.
+
 ## Usage
 
 ```ruby
