@@ -1,7 +1,16 @@
 ---
 - type: foo
   traits:
-    - bar
     - baz
   params:
     qux: 42
+
+- type: foo
+  count: 3
+  traits:
+    - bar
+
+- type: foo
+  count: 0
+  traits:
+    - baz
