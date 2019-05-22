@@ -79,7 +79,7 @@ The seed (`seed_fixture`) file should be a YAML/JSON with opinionated parameters
 # ./database.yml
 #
 # This is the same as
-# `create :profile, :active, id: profile_id`
+# `create_list :profile, 1, :active, id: profile_id`
 ---
 - type: profile
   traits:
@@ -87,6 +87,8 @@ The seed (`seed_fixture`) file should be a YAML/JSON with opinionated parameters
   params:
     id: <%= profile_id %>
 ```
+
+Use the `count: 2` key to create more objects at once.
 
 Another opinionated format we use for stubs (`stub_fixture`):
 

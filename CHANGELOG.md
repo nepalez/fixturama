@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.0.4] - [2018-05-22]
+
+### Added
+
+- The `:count` option for a number of objects to seed at once (nepalez)
+
+  ```yaml
+  # Seed 3 customers
+  ---
+  - type: user
+    count: 3
+    traits:
+      - customer
+  ```
+
 ## [0.0.3] - [2018-05-04]
 
 ### Added
@@ -52,3 +67,4 @@ This is a first public release with features extracted from production app.
 [0.0.1]: https://github.com/nepalez/fixturama/releases/tag/v0.0.1
 [0.0.2]: https://github.com/nepalez/fixturama/compare/v0.0.1...v0.0.2
 [0.0.3]: https://github.com/nepalez/fixturama/compare/v0.0.2...v0.0.3
+[0.0.4]: https://github.com/nepalez/fixturama/compare/v0.0.3...v0.0.4
