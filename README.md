@@ -2,6 +2,8 @@
 
 Collection of helpers for dealing with fixtures in [RSpec][rspec]
 
+Read the [post about the library on dev.to][dev_to].
+
 <a href="https://evilmartians.com/">
 <img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg" alt="Sponsored by Evil Martians" width="236" height="54"></a>
 
@@ -168,3 +170,4 @@ The gem is available as open source under the terms of the [MIT License][license
 [license]: http://opensource.org/licenses/MIT
 [factory-bot]: https://github.com/thoughtbot/factory_bot
 [rspec]: https://rspec.info/
+[dev_to]: https://dev.to/evilmartians/a-fixture-based-approach-to-interface-testing-in-rails-2cd4
