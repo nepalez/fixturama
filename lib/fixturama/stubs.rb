@@ -4,6 +4,7 @@ module Fixturama
   #
   class Stubs
     require_relative "stubs/chain"
+    require_relative "stubs/const"
 
     #
     # Register new action and apply the corresponding stub
@@ -35,15 +36,19 @@ module Fixturama
       when :message_chain
         anchor = options.slice(:class, :chain)
         @stubs[anchor] ||= Chain.new(anchor)
+      when :constant
+        anchor = options.slice(:const)
+        @stubs[anchor] ||= Const.new(anchor)
       end
     end
 
     def stub_type(options)
       return :message_chain if options[:class]
+      return :constant      if options[:const]
 
       raise ArgumentError, <<~MESSAGE
         Cannot figure out what to stub from #{options}.
-        You should define a class and a message chain.
+        You should define either a class and a message chain, or some const.
       MESSAGE
     end
 

@@ -15,6 +15,7 @@ module Fixturama
     def to_s
       "#{receiver}.#{messages.join(".")}"
     end
+    alias to_str to_s
 
     #
     # Register new action for some arguments
@@ -38,7 +39,7 @@ module Fixturama
     end
 
     #
-    # Applies the stub to RSpec example
+    # Apply the stub to RSpec example
     #
     def apply!(example)
       reset!
