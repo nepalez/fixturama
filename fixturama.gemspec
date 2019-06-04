@@ -1,6 +1,6 @@
 Gem::Specification.new do |gem|
   gem.name     = "fixturama"
-  gem.version  = "0.0.4"
+  gem.version  = "0.0.5"
   gem.author   = "Andrew Kozin (nepalez)"
   gem.email    = "andrew.kozin@gmail.com"
   gem.homepage = "https://github.com/nepalez/fixturama"
