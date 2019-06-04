@@ -3,8 +3,6 @@ module Fixturama
   # Collection of stubbed calls
   #
   class Stubs
-    require_relative "stubs/actions"
-    require_relative "stubs/arguments"
     require_relative "stubs/chain"
 
     #

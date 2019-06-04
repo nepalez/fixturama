@@ -3,6 +3,9 @@ module Fixturama
   # Stubbed chain of messages
   #
   class Stubs::Chain
+    require_relative "chain/actions"
+    require_relative "chain/arguments"
+
     attr_reader :receiver, :messages
 
     #
@@ -24,7 +27,7 @@ module Fixturama
       Utils.array(arguments).tap do |args|
         stub = find_by(args)
         unless stub
-          stub = Stubs::Arguments.new(self, args)
+          stub = Stubs::Chain::Arguments.new(self, args)
           stubs << stub
         end
         stub.add!(*actions)

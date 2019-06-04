@@ -1,4 +1,4 @@
-class Fixturama::Stubs::Actions::Return
+class Fixturama::Stubs::Chain::Actions::Return
   attr_reader :stub, :call
 
   #
