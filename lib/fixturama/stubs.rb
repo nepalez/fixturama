@@ -10,40 +10,47 @@ module Fixturama
     #
     # Register new action and apply the corresponding stub
     #
-    # @option [#to_s]        :class Class to stub
-    # @option [Array<#to_s>] :chain Methods chain for stubbing
-    # @option (see Fixturama::Stubs::Method#add)
+    # @params [Hash<#to_s, _>] options
     # @return [self] itself
     #
     def add(options)
-      tap do
-        options = Utils.symbolize_hash(options)
-
-        options.select { |key| %i[class chain].include?(key) }.tap do |anchors|
-          chains[anchors] ||= Chain.new(anchors)
-          chains[anchors].add(options)
-        end
-      end
+      options = symbolize(options)
+      find_or_create_stub!(options)&.update!(options)
+      self
     end
 
     #
     # Applies the stub to RSpec example
     #
     def apply(example)
-      chains.values.each do |chain|
-        chain.reset!
-        call_action = \
-          example.send(:receive_message_chain, *chain.messages) do |*args|
-            chain.call! args
-          end
-        example.send(:allow, chain.receiver).to call_action
-      end
+      @stubs.values.each { |stub| stub.apply!(example) }
     end
 
     private
 
-    def chains
-      @chains ||= {}
+    def initialize
+      @stubs = {}
+    end
+
+    def find_or_create_stub!(options)
+      case stub_type(options)
+      when :message_chain
+        anchor = options.slice(:class, :chain)
+        @stubs[anchor] ||= Chain.new(anchor)
+      end
+    end
+
+    def stub_type(options)
+      return :message_chain if options[:class]
+
+      raise ArgumentError, <<~MESSAGE
+        Cannot figure out what to stub from #{options}.
+        You should define a class and a message chain.
+      MESSAGE
+    end
+
+    def symbolize(options)
+      Hash(options).transform_keys { |key| key.to_s.to_sym }
     end
   end
 end

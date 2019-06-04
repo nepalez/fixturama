@@ -6,13 +6,21 @@ module Fixturama
     attr_reader :receiver, :messages
 
     #
+    # Human-readable representation of the chain
+    # @return [String]
+    #
+    def to_s
+      "#{receiver}.#{messages.join(".")}"
+    end
+
+    #
     # Register new action for some arguments
     #
     # @option [Array<#to_s>, #to_s] :arguments The specific arguments
     # @option (see Fixturama::Stubs::Arguments#add_action)
     # @return [self]
     #
-    def add(actions:, arguments: nil, **)
+    def update!(actions:, arguments: nil, **)
       Utils.array(arguments).tap do |args|
         stub = find_by(args)
         unless stub
@@ -27,31 +35,16 @@ module Fixturama
     end
 
     #
-    # Resets all counters
-    # @return [self] itself
+    # Applies the stub to RSpec example
     #
-    def reset!
-      tap { stubs.each(&:reset!) }
-    end
+    def apply!(example)
+      reset!
 
-    #
-    # Executes the corresponding action
-    # @return [Object]
-    # @raise  [StandardError]
-    #
-    def call!(actual_arguments)
-      stub = stubs.find { |item| item.applicable_to?(actual_arguments) }
-      raise "Unexpected arguments #{actual_arguments}" unless stub
+      call_action = example.send(:receive_message_chain, *messages) do |*args|
+        call! args
+      end
 
-      stub.call_next!
-    end
-
-    #
-    # Human-readable representation of the chain
-    # @return [String]
-    #
-    def to_s
-      "#{receiver}.#{messages.join(".")}"
+      example.send(:allow, receiver).to call_action
     end
 
     private
@@ -73,6 +66,17 @@ module Fixturama
 
     def find_by(arguments)
       stubs.find { |stub| stub.arguments == arguments }
+    end
+
+    def reset!
+      tap { stubs.each(&:reset!) }
+    end
+
+    def call!(actual_arguments)
+      stub = stubs.find { |item| item.applicable_to?(actual_arguments) }
+      raise "Unexpected arguments #{actual_arguments}" unless stub
+
+      stub.call_next!
     end
   end
 end
