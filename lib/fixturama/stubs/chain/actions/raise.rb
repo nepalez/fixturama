@@ -1,4 +1,4 @@
-class Fixturama::Stubs::Actions::Raise
+class Fixturama::Stubs::Chain::Actions::Raise
   def call
     raise @exception
   end

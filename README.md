@@ -92,12 +92,19 @@ The seed (`seed_fixture`) file should be a YAML/JSON with opinionated parameters
 
 Use the `count: 2` key to create more objects at once.
 
-Another opinionated format we use for stubs (`stub_fixture`):
+Another opinionated format we use for stubs (`stub_fixture`). The gem supports stubbing both message chains and constants.
+
+For message chains:
 
 - `class` for stubbed class
 - `chain` for messages chain
 - `arguments` (optional) for specific arguments
 - `actions` for an array of actions for consecutive invocations of the chain
+
+For constants:
+
+- `const` for stubbed constant
+- `value` for a value of the constant
 
 Every action either `return` some value, or `raise` some exception
 
@@ -128,6 +135,9 @@ Every action either `return` some value, or `raise` some exception
   actions:
     - return: true
     - raise: ActiveRecord::RecordNotFound
+
+- const: NOTIFIER_TIMEOUT_SEC
+  value: 10
 ```
 
 ```graphql

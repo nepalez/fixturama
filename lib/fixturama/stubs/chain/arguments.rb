@@ -2,7 +2,7 @@ module Fixturama
   #
   # Collection of arguments for a stub with a list of actions to be called
   #
-  class Stubs::Arguments
+  class Stubs::Chain::Arguments
     attr_reader :chain, :arguments
 
     #
@@ -15,7 +15,7 @@ module Fixturama
       actions.each do |settings|
         settings = Utils.symbolize_hash(settings)
         repeat   = [0, settings.fetch(:repeat, 1).to_i].max
-        repeat.times { list << Stubs::Actions.build(self, settings) }
+        repeat.times { list << Stubs::Chain::Actions.build(self, settings) }
       end
 
       self

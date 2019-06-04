@@ -2,7 +2,7 @@ module Fixturama
   #
   # Factory to provide a specific action from options
   #
-  module Stubs::Actions
+  module Stubs::Chain::Actions
     extend self
 
     require_relative "actions/raise"

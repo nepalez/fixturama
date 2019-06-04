@@ -15,7 +15,7 @@ RSpec.describe "stub_fixture" do
     it { is_expected.to eq [5] }
   end
 
-  context "with stubbing" do
+  context "when message chain stubbed" do
     before { stub_fixture "#{__dir__}/stub.yml" }
 
     context "with a :raise option" do
@@ -64,6 +64,17 @@ RSpec.describe "stub_fixture" do
       it "uses universal stub" do
         expect(subject).to eq [-1]
       end
+    end
+  end
+
+  context "when constant stubbed" do
+    before do
+      TIMEOUT = 20
+      stub_fixture "#{__dir__}/stub.yml"
+    end
+
+    it "stubs the constant" do
+      expect(TIMEOUT).to eq 10
     end
   end
 end

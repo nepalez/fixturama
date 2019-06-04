@@ -3,7 +3,19 @@ module Fixturama
   # Stubbed chain of messages
   #
   class Stubs::Chain
+    require_relative "chain/actions"
+    require_relative "chain/arguments"
+
     attr_reader :receiver, :messages
+
+    #
+    # Human-readable representation of the chain
+    # @return [String]
+    #
+    def to_s
+      "#{receiver}.#{messages.join(".")}"
+    end
+    alias to_str to_s
 
     #
     # Register new action for some arguments
@@ -12,11 +24,11 @@ module Fixturama
     # @option (see Fixturama::Stubs::Arguments#add_action)
     # @return [self]
     #
-    def add(actions:, arguments: nil, **)
+    def update!(actions:, arguments: nil, **)
       Utils.array(arguments).tap do |args|
         stub = find_by(args)
         unless stub
-          stub = Stubs::Arguments.new(self, args)
+          stub = Stubs::Chain::Arguments.new(self, args)
           stubs << stub
         end
         stub.add!(*actions)
@@ -27,31 +39,16 @@ module Fixturama
     end
 
     #
-    # Resets all counters
-    # @return [self] itself
+    # Apply the stub to RSpec example
     #
-    def reset!
-      tap { stubs.each(&:reset!) }
-    end
+    def apply!(example)
+      reset!
 
-    #
-    # Executes the corresponding action
-    # @return [Object]
-    # @raise  [StandardError]
-    #
-    def call!(actual_arguments)
-      stub = stubs.find { |item| item.applicable_to?(actual_arguments) }
-      raise "Unexpected arguments #{actual_arguments}" unless stub
+      call_action = example.send(:receive_message_chain, *messages) do |*args|
+        call! args
+      end
 
-      stub.call_next!
-    end
-
-    #
-    # Human-readable representation of the chain
-    # @return [String]
-    #
-    def to_s
-      "#{receiver}.#{messages.join(".")}"
+      example.send(:allow, receiver).to call_action
     end
 
     private
@@ -73,6 +70,17 @@ module Fixturama
 
     def find_by(arguments)
       stubs.find { |stub| stub.arguments == arguments }
+    end
+
+    def reset!
+      tap { stubs.each(&:reset!) }
+    end
+
+    def call!(actual_arguments)
+      stub = stubs.find { |item| item.applicable_to?(actual_arguments) }
+      raise "Unexpected arguments #{actual_arguments}" unless stub
+
+      stub.call_next!
     end
   end
 end
