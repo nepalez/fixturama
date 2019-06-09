@@ -8,6 +8,7 @@ require "yaml"
 module Fixturama
   require_relative "fixturama/config"
   require_relative "fixturama/utils"
+  require_relative "fixturama/loader"
   require_relative "fixturama/stubs"
   require_relative "fixturama/seed"
 
@@ -28,12 +29,7 @@ module Fixturama
   end
 
   def load_fixture(path, **opts)
-    extname = Pathname.new(path).extname
-
-    read_fixture(path, **opts).tap do |content|
-      return YAML.load(content)  if %w[.yaml .yml].include?(extname)
-      return JSON.parse(content) if extname == ".json"
-    end
+    Loader.new(path, opts).call
   end
 
   def read_fixture(path, **opts)

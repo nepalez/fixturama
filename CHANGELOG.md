@@ -5,6 +5,56 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## WIP
+
+### Added
+
+- Better matching of YAML/JSON files (nepalez)
+
+  The loader recognizes complex extensions like `data.yml.erb`
+  or `data.json.erb`, as well as `data.YAML` in upper register.
+
+- Support for Ruby objects (including Activerecord models) serialization
+  in the parameters of fixtures (nepalez)
+  
+  You can send objects, that are stringified in a default Ruby way,
+  into fixture loaders (seeds, stubs etc.) via ERB bindings.
+  Those objects will be gracefully inserted into the resulting structure:
+  
+  ```yaml
+  ---
+  :account: <%= user %>
+  ```
+  
+  ```ruby
+  let(:user) { FactoryBot.create :user }
+  subject    { load_fixture "#{__dir__}/output.yml", user: user }
+
+  # The `user` object has been bound via ERB
+  it { is_expected.to eq account: user }
+  ```
+  
+  This feature can be used for adding RSpec [matching arguments](https://relishapp.com/rspec/rspec-mocks/v/3-8/docs/setting-constraints/matching-arguments):
+
+  ```yaml
+  ---
+  :foo: <%= foo %>
+  :bar: 3
+  ```
+  
+  ```ruby
+  # Use the RSpec `anyting` matcher
+  subject { { foo: 4, bar: 3 } }
+  
+  let(:template) { load_fixture "#{__dir__}/template.yml", foo: anyting }
+  
+  # The `anyting` has been bound via ERB to the template
+  # Compare `{ foo: 4, bar: 3 }` to the template `{ foo: anything, bar: 3 }`
+  it { is_expected.to include(template) }
+  ```
+  
+  **Be careful though**: the trick won't work with objects whose default method `Object#to_s` has been overloaded.
+  
 ## [0.0.5] - [2018-06-04]
 
 ### Added
