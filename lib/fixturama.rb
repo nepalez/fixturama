@@ -8,6 +8,7 @@ require "yaml"
 module Fixturama
   require_relative "fixturama/config"
   require_relative "fixturama/utils"
+  require_relative "fixturama/loader"
   require_relative "fixturama/stubs"
   require_relative "fixturama/seed"
 
@@ -28,12 +29,7 @@ module Fixturama
   end
 
   def load_fixture(path, **opts)
-    basename = Pathname.new(path).basename.to_s
-
-    read_fixture(path, **opts).tap do |content|
-      return YAML.load(content)  if basename[YAML]
-      return JSON.parse(content) if basename[JSON]
-    end
+    Loader.new(path, opts).call
   end
 
   def read_fixture(path, **opts)
@@ -49,8 +45,4 @@ module Fixturama
   def fixturama_stubs
     @fixturama_stubs ||= Stubs.new
   end
-
-  # Matchers for YAML/YML/JSON in file extension like "data.yml.erb" etc.
-  YAML = /.+\.ya?ml(\.|\z)/i.freeze
-  JSON = /.+\.json(\.|\z)/i.freeze
 end

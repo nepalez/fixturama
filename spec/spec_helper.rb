@@ -17,4 +17,10 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
+
+  config.around do |example|
+    module Test; end
+    example.run
+    Object.send(:remove_const, :Test)
+  end
 end
