@@ -42,6 +42,8 @@ The gem defines 3 helpers (support ERB bindings):
 - `seed_fixture(path_to_yaml, **opts)` to prepare database using the [FactoryBot][factory-bot]
 - `stub_fixture(path_to_yaml, **opts)` to stub some classes
 
+### Loading
+
 ```ruby
 # spec/models/user/_spec.rb
 RSpec.describe "GraphQL mutation 'deleteProfile'" do
@@ -71,6 +73,34 @@ RSpec.describe "GraphQL mutation 'deleteProfile'" do
 end
 ```
 
+Notice, that since the `v0.0.6` the gem also supports binding any ruby object, not only strings, booleans and numbers:
+
+```yaml
+# ./data.yml
+---
+account: <%= user %>
+```
+
+```ruby
+# Bind activerecord model
+subject { load_fixture "#{__dir__}/data.yml", user: user }
+
+let(:user) { FactoryBot.create :user }
+
+# The same object will be returned
+it { is_expected.to eq account: user }
+```
+
+The object must be named in the options you send to the `load_fixture`, `stub_fixture`, or `seed_fixture` helpers.
+
+This feature can also be useful to produce a "partially defined" fixtures with [RSpec argument matchers][rspec-argument-matchers]:
+
+```ruby
+subject { load_fixture "#{__dir__}/data.yml", user: kind_of(ActiveRecord::Base) }
+```
+
+### Seeding
+
 The seed (`seed_fixture`) file should be a YAML/JSON with opinionated parameters, namely:
 
 - `type` for the name of the [FactoryBot][factory-bot] factory
@@ -91,6 +121,8 @@ The seed (`seed_fixture`) file should be a YAML/JSON with opinionated parameters
 ```
 
 Use the `count: 2` key to create more objects at once.
+
+### Stubbing
 
 Another opinionated format we use for stubs (`stub_fixture`). The gem supports stubbing both message chains and constants.
 
@@ -181,3 +213,4 @@ The gem is available as open source under the terms of the [MIT License][license
 [factory-bot]: https://github.com/thoughtbot/factory_bot
 [rspec]: https://rspec.info/
 [dev_to]: https://dev.to/evilmartians/a-fixture-based-approach-to-interface-testing-in-rails-2cd4
+[rspec-argument-matchers]: https://relishapp.com/rspec/rspec-mocks/v/3-8/docs/setting-constraints/matching-arguments
