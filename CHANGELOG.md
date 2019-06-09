@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## WIP
+
+### Added
+
+- Better matching of YAML/JSON files (nepalez)
+
+  The loader recognizes complex extensions like `data.yml.erb`
+  or `data.json.erb`, as well as `data.YAML` in upper register.
+
 ## [0.0.5] - [2018-06-04]
 
 ### Added

@@ -28,11 +28,11 @@ module Fixturama
   end
 
   def load_fixture(path, **opts)
-    extname = Pathname.new(path).extname
+    basename = Pathname.new(path).basename.to_s
 
     read_fixture(path, **opts).tap do |content|
-      return YAML.load(content)  if %w[.yaml .yml].include?(extname)
-      return JSON.parse(content) if extname == ".json"
+      return YAML.load(content)  if basename[YAML]
+      return JSON.parse(content) if basename[JSON]
     end
   end
 
@@ -49,4 +49,8 @@ module Fixturama
   def fixturama_stubs
     @fixturama_stubs ||= Stubs.new
   end
+
+  # Matchers for YAML/YML/JSON in file extension like "data.yml.erb" etc.
+  YAML = /.+\.ya?ml(\.|\z)/i.freeze
+  JSON = /.+\.json(\.|\z)/i.freeze
 end
