@@ -35,7 +35,7 @@
     - return: 2
     - return: 0
 
-- class: Payment
+- object: Payment.itself
   chain:
     - new
     - pay

@@ -32,18 +32,16 @@ module Fixturama
     end
 
     def find_or_create_stub!(options)
-      case stub_type(options)
-      when :message_chain
-        anchor = options.slice(:class, :chain)
-        @stubs[anchor] ||= Chain.new(anchor)
-      when :constant
-        anchor = options.slice(:const)
-        @stubs[anchor] ||= Const.new(anchor)
-      end
+      stub = case stub_type(options)
+             when :message_chain then Chain.new(options)
+             when :constant      then Const.new(options)
+             end
+
+      @stubs[stub.to_s] ||= stub if stub
     end
 
     def stub_type(options)
-      return :message_chain if options[:class]
+      return :message_chain if options[:class] || options[:object]
       return :constant      if options[:const]
 
       raise ArgumentError, <<~MESSAGE
