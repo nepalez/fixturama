@@ -20,6 +20,32 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
       - return: production
   ```
 
+### Changed
+
+- Partially defined options will satisfy an expectation (nepalez)
+
+  ```yaml
+  ---
+  - class: Payment
+    chain:
+      - call
+    arguments:
+      - 1
+      - :overdraft: true
+    actions:
+      - return: 3
+  ```
+  
+  This works even though the key `:notify` was not defined by the stub:
+
+  ```ruby
+  Payment.call 1, overdraft: true, notify: true
+  ```
+  
+  Notice, that these method works for key arguments only
+  (symbolized hash as the last argument).
+
+
 ## [0.0.6] - [2019-06-09]
 
 ### Added

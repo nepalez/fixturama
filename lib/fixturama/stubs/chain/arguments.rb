@@ -27,7 +27,16 @@ module Fixturama
     # @return [Boolean]
     #
     def applicable_to?(actual_arguments)
-      @arguments.zip(actual_arguments).map { |(x, y)| x == y }.reduce(true, :&)
+      last_index = actual_arguments.count
+      @arguments.zip(actual_arguments)
+                .each.with_index(1)
+                .reduce(true) do |obj, ((expected, actual), index)|
+                  obj && (
+                    expected == actual ||
+                    index == last_index &&
+                    Fixturama::Utils.matched_hash_args?(actual, expected)
+                  )
+                end
     end
 
     #

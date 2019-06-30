@@ -58,6 +58,22 @@ RSpec.describe "stub_fixture" do
       end
     end
 
+    context "with partially defined options" do
+      subject { Payment.new.pay(10, overdraft: true, notiy: true) }
+
+      it "uses the stub" do
+        expect(subject).to eq(-5)
+      end
+    end
+
+    context "when options differ" do
+      subject { Payment.new.pay(10, overdraft: false) }
+
+      it "uses universal stub" do
+        expect(subject).to eq(-1)
+      end
+    end
+
     context "with unspecified argument" do
       let(:arguments) { [4] }
 

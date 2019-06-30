@@ -29,5 +29,11 @@ module Fixturama
       else [list]
       end
     end
+
+    def matched_hash_args?(actual, expected)
+      return unless actual.is_a?(Hash) && expected.is_a?(Hash)
+
+      expected.all? { |key, val| actual[key] == val }
+    end
   end
 end
