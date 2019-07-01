@@ -35,7 +35,7 @@
     - return: 2
     - return: 0
 
-- class: Payment
+- object: Payment.itself
   chain:
     - new
     - pay
@@ -45,6 +45,16 @@
     - return: 6
       repeat: 2
     - return: 0
+
+- class: Payment
+  chain:
+    - new
+    - pay
+  arguments:
+    - 10
+    - :overdraft: true
+  actions:
+    - return: -5
 
 - const: TIMEOUT
   value: 10

@@ -54,12 +54,15 @@ module Fixturama
     private
 
     def initialize(**options)
-      @receiver = Utils.constantize options[:class]
+      @receiver = Utils.constantize options[:class] if options.key?(:class)
+      @receiver ||= Object.send :eval, options[:object] if options.key?(:object)
+      raise SyntaxError, "Undefined receiver of messages" unless receiver
+
       @messages = Utils.symbolize_array options[:chain]
       return if messages.any?
 
       raise SyntaxError, <<~MESSAGE.squish
-        Indefined message chain for stubbing #{receiver}.
+        Undefined message chain for stubbing #{receiver}.
         Use option `chain` to define it.
       MESSAGE
     end
