@@ -131,6 +131,7 @@ For message chains:
 - `class` for stubbed class
 - `chain` for messages chain
 - `arguments` (optional) for specific arguments
+- `within_transaction` (default to `true`) if the method can be called within a database transaction
 - `actions` for an array of actions for consecutive invocations of the chain
 
 For constants:
@@ -161,6 +162,7 @@ Every action either `return` some value, or `raise` some exception
 - class: Notifier
   chain:
     - create
+  within_transaction: false
   arguments:
     - :profileDeleted
     - <%= profile_id %>
