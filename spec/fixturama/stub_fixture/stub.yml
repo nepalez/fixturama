@@ -19,6 +19,7 @@
   chain:
     - new
     - pay
+  within_transaction: false
   arguments:
     - 1
   actions:

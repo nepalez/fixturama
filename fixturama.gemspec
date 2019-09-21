@@ -16,6 +16,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency "factory_bot", "~> 4.0"
   gem.add_runtime_dependency "rspec", "~> 3.0"
   gem.add_runtime_dependency "hashie", "~> 3.6"
+  gem.add_runtime_dependency "isolator", "~> 0.6.1"
 
   gem.add_development_dependency "rake", "~> 10"
   gem.add_development_dependency "rspec-its", "~> 1.2"

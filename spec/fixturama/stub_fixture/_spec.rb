@@ -34,6 +34,28 @@ RSpec.describe "stub_fixture" do
       end
     end
 
+    context "when called within a transaction" do
+      before do
+        allow(Isolator).to receive(:within_transaction?).and_return(true)
+      end
+
+      context "without the :within_transaction option" do
+        let(:arguments) { [2] }
+
+        it "raises an exception" do
+          expect { subject }.not_to raise_error
+        end
+      end
+
+      context "when the option :within_transaction was set to false" do
+        let(:arguments) { [1] }
+
+        it "raises an exception" do
+          expect { subject }.to raise_error(Isolator::UnsafeOperationError)
+        end
+      end
+    end
+
     context "with several actions" do
       let(:arguments) { [2] * 4 }
 

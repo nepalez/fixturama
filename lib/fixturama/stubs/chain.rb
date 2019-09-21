@@ -24,11 +24,11 @@ module Fixturama
     # @option (see Fixturama::Stubs::Arguments#add_action)
     # @return [self]
     #
-    def update!(actions:, arguments: nil, **)
+    def update!(actions:, arguments: nil, within_transaction: true, **)
       Utils.array(arguments).tap do |args|
         stub = find_by(args)
         unless stub
-          stub = Stubs::Chain::Arguments.new(self, args)
+          stub = Stubs::Chain::Arguments.new(self, within_transaction, args)
           stubs << stub
         end
         stub.add!(*actions)

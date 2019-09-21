@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 0.0.8 - WIP 
+
+### Added
+
+- Protection of stubbed methods from being called within a db transaction (nepalez)
+
+  ```yaml
+  ---
+  - class: GoogleTranslateDiff
+  - chain: translate
+  - within_transaction: false
+  - arguments:
+      - Color
+      - :from: en
+        :to:   de
+  - actions:
+      - return: Farbe
+  ```
+  
+  This method will raise an exception if the method is executed in a transaction:
+  
+  ```ruby
+  GoogleTranslateDiff.translate "Color", from: "en", to: "de"
+  # => "Farbe"  
+
+  # but not within a transaction
+  ActiveRecord::Base.transaction do
+    GoogleTranslateDiff.translate "Color", from: "en", to: "de"
+    # => raise #<Isolator::UnsafeOperationError ...>
+  end
+  ```
+  
+  We use the [isolator][isolator] gem under the hood
+
 ## [0.0.7] - [2019-07-01]
 
 ### Added
@@ -166,7 +200,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.0.1] - [2018-03-01]
 
-This is a first public release with features extracted from production app.
+This is the first public release with features extracted from production app.
 
 [0.0.1]: https://github.com/nepalez/fixturama/releases/tag/v0.0.1
 [0.0.2]: https://github.com/nepalez/fixturama/compare/v0.0.1...v0.0.2
@@ -175,3 +209,5 @@ This is a first public release with features extracted from production app.
 [0.0.5]: https://github.com/nepalez/fixturama/compare/v0.0.4...v0.0.5
 [0.0.6]: https://github.com/nepalez/fixturama/compare/v0.0.5...v0.0.6
 [0.0.7]: https://github.com/nepalez/fixturama/compare/v0.0.6...v0.0.7
+
+[isolator]: https://github.com/palkan/isolator

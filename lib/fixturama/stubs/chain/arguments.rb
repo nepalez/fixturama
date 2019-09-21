@@ -3,7 +3,7 @@ module Fixturama
   # Collection of arguments for a stub with a list of actions to be called
   #
   class Stubs::Chain::Arguments
-    attr_reader :chain, :arguments
+    attr_reader :chain, :arguments, :within_transaction
 
     #
     # Register new action for these set of arguments
@@ -54,7 +54,11 @@ module Fixturama
     # @raise  [StandardError]
     #
     def call_next!
-      list.fetch(counter) { list.last }.call.tap { @counter += 1 }
+      action = list.fetch(counter) { list.last }
+      isolate! unless within_transaction
+      action.call
+    ensure
+      @counter += 1
     end
 
     #
@@ -70,8 +74,9 @@ module Fixturama
 
     # @param [Fixturama::Stubs::Chain] chain Back reference
     # @param [Array<Object>] list Definition of arguments
-    def initialize(chain, list)
-      @chain     = chain
+    def initialize(chain, within_transaction, list)
+      @chain = chain
+      @within_transaction = within_transaction || (require("isolator") || false)
       @arguments = Utils.array(list)
     end
 
@@ -81,6 +86,14 @@ module Fixturama
 
     def list
       @list ||= []
+    end
+
+    def isolate!
+      return unless ::Isolator.within_transaction?
+
+      raise ::Isolator::UnsafeOperationError, <<~MESSAGE
+        You're trying to call #{self} inside db transaction
+      MESSAGE
     end
   end
 end
