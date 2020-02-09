@@ -10,14 +10,8 @@ script:
   - bundle exec rubocop
 rvm:
   - 2.3.0
-  - 2.6.0
-  - jruby-9.2.0.0
+  - 2.7.0
   - ruby-head
-  - jruby-head
-env:
-  global:
-    - JRUBY_OPTS='--dev -J-Xmx1024M'
 matrix:
   allow_failures:
     - rvm: ruby-head
-    - rvm: jruby-head

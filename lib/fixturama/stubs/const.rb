@@ -13,6 +13,7 @@ module Fixturama
       const.to_s
     end
     alias to_str to_s
+    alias key to_s
 
     #
     # Overload the definition for the constant

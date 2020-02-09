@@ -26,7 +26,10 @@ RSpec.describe "seed_fixture" do
 
   it "runs the factory", aggregate_failures: true do
     expect(FactoryBot).to receive(:create_list).with(:foo, 1, :baz, qux: 42)
-    expect(FactoryBot).to receive(:create_list).with(:foo, 3, :bar, {})
+    expect(FactoryBot).to receive(:create_list) do |*args, **opts|
+      expect(args).to eq [:foo, 3, :bar]
+      expect(opts).to be_empty
+    end
 
     subject
   end

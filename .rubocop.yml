@@ -5,7 +5,7 @@ AllCops:
   StyleGuideCopsOnly: true
   TargetRubyVersion:  2.3
 
-Metrics/LineLength:
+Layout/LineLength:
   AllowHeredoc: true
   AllowURI: true
   URISchemes:

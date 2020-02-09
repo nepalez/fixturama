@@ -58,3 +58,16 @@
 
 - const: TIMEOUT
   value: 10
+
+- method: get
+  uri: www.example.com/foo
+  responses:
+    - body: foo
+      headers:
+        Content-Length: 3
+
+- method: delete
+  uri: /example.com/foo/ # Regexp!
+  responses:
+    - status: 200
+    - status: 404 # for any request except for the first one

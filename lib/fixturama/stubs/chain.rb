@@ -16,6 +16,7 @@ module Fixturama
       "#{receiver}.#{messages.join(".")}"
     end
     alias to_str to_s
+    alias key to_s
 
     #
     # Register new action for some arguments
