@@ -3,6 +3,7 @@ require "factory_bot"
 require "hashie/mash"
 require "json"
 require "rspec"
+require "webmock/rspec"
 require "yaml"
 
 module Fixturama

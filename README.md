@@ -133,12 +133,25 @@ For message chains:
 - `arguments` (optional) for specific arguments
 - `actions` for an array of actions for consecutive invocations of the chain
 
+Every action either `return` some value, or `raise` some exception
+
 For constants:
 
 - `const` for stubbed constant
 - `value` for a value of the constant
 
-Every action either `return` some value, or `raise` some exception
+For http requests:
+
+- `url` or `uri` for the URI of the request (treats values like `/.../` as regular expressions)
+- `method` for the specific http-method (like `get` or `post`)
+- `body` for the request body (treats values like `/.../` as regular expressions)
+- `headers` for the request headers
+- `query` for the request query
+- `basic_auth` for the `user` and `password` of basic authentication
+- `response` or `responses` for consecutively envoked responses with keys:
+    - `status`
+    - `body`
+    - `headers`
 
 ```yaml
 # ./stubs.yml
@@ -170,6 +183,21 @@ Every action either `return` some value, or `raise` some exception
 
 - const: NOTIFIER_TIMEOUT_SEC
   value: 10
+
+# Examples for stubbing HTTP
+- uri: /example.com/foo/ # regexp!
+  method: delete
+  basic_auth:
+    user: foo
+    password: bar
+  responses:
+    - status: 200 # for the first call
+    - status: 404 # for any other call
+
+- uri: htpps://example.com/foo # exact string!
+  method: delete
+  responses:
+    - status: 401
 ```
 
 ```graphql

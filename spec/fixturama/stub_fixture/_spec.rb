@@ -93,4 +93,28 @@ RSpec.describe "stub_fixture" do
       expect(TIMEOUT).to eq 10
     end
   end
+
+  context "when http request stubbed" do
+    before { stub_fixture "#{__dir__}/stub.yml" }
+
+    it "stubs the request properly" do
+      req = Net::HTTP::Get.new("/foo")
+      res = Net::HTTP.start("www.example.com") { |http| http.request(req) }
+
+      expect(res.code).to eq "200"
+      expect(res.body).to eq "foo"
+      expect(res["Content-Length"]).to eq "3"
+    end
+
+    def delete_request
+      req = Net::HTTP::Delete.new("/foo")
+      Net::HTTP.start("www.example.com") { |http| http.request(req) }
+    end
+
+    it "stubs repetitive requests properly" do
+      expect(delete_request.code).to eq "200"
+      expect(delete_request.code).to eq "404"
+      expect(delete_request.code).to eq "404"
+    end
+  end
 end

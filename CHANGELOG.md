@@ -5,6 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.1.0] - To be released
+
+### Added
+
+- Stubbing of the HTTP requests using webmock (nepalez)
+
+  ```yaml
+  ---
+  - url: example.com/foo
+    method: get
+    body: foobar
+    query:
+      foo: bar
+    basic_auth:
+      user: foo
+      password: bar
+    headers:
+      Accept: utf-8
+    responses:
+      - status: 200
+        body: foobar
+      - status: 404
+  ```
+
 ## [0.0.7] - [2019-07-01]
 
 ### Added

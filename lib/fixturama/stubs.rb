@@ -5,6 +5,7 @@ module Fixturama
   class Stubs
     require_relative "stubs/chain"
     require_relative "stubs/const"
+    require_relative "stubs/request"
 
     #
     # Register new action and apply the corresponding stub
@@ -35,6 +36,7 @@ module Fixturama
       stub = case stub_type(options)
              when :message_chain then Chain.new(options)
              when :constant      then Const.new(options)
+             when :request       then Request.new(options)
              end
 
       @stubs[stub.key] ||= stub if stub
@@ -54,10 +56,19 @@ module Fixturama
     TYPES = {
       arguments: :message_chain,
       actions: :message_chain,
+      basic_auth: :request,
+      body: :request,
       chain: :message_chain,
       class: :message_chain,
       const: :constant,
+      headers: :request,
+      http_method: :request,
       object: :message_chain,
+      query: :request,
+      response: :request,
+      responses: :request,
+      uri: :request,
+      url: :request,
       value: :constant,
     }.freeze
 
