@@ -37,18 +37,29 @@ module Fixturama
              when :constant      then Const.new(options)
              end
 
-      @stubs[stub.to_s] ||= stub if stub
+      @stubs[stub.key] ||= stub if stub
     end
 
     def stub_type(options)
-      return :message_chain if options[:class] || options[:object]
-      return :constant      if options[:const]
+      key = (TYPES.keys & options.keys).first
+      return TYPES[key] if key
 
       raise ArgumentError, <<~MESSAGE
         Cannot figure out what to stub from #{options}.
         You should define either a class and a message chain, or some const.
       MESSAGE
     end
+
+    # Matches keys to the type of the stub
+    TYPES = {
+      arguments: :message_chain,
+      actions: :message_chain,
+      chain: :message_chain,
+      class: :message_chain,
+      const: :constant,
+      object: :message_chain,
+      value: :constant,
+    }.freeze
 
     def symbolize(options)
       Hash(options).transform_keys { |key| key.to_s.to_sym }
