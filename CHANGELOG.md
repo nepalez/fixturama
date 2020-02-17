@@ -5,6 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.2.0] - [2020-02-17]
+
+### Added
+
+- Stubbing and seeding from the same source file via the `call_fixture` method (nepalez)
+
+```yaml
+# ./changes.yml
+---
+- type: user
+  params:
+    id: 1
+
+- const: DEFAULT_USER_ID
+  value: 1
+
+- url: https://example.com/users/default
+  method: get
+  responses:
+    - body:
+        id: 1
+        name: Andrew
+```
+
+```ruby
+before { call_fixture "#{__dir__}/changes.yml" }
+```
+
 ## [0.1.0] - [2020-02-09]
 
 ### Added
@@ -200,3 +228,4 @@ This is a first public release with features extracted from production app.
 [0.0.6]: https://github.com/nepalez/fixturama/compare/v0.0.5...v0.0.6
 [0.0.7]: https://github.com/nepalez/fixturama/compare/v0.0.6...v0.0.7
 [0.1.0]: https://github.com/nepalez/fixturama/compare/v0.0.7...v0.1.0
+[0.2.0]: https://github.com/nepalez/fixturama/compare/v0.1.0...v0.2.0

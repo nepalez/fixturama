@@ -124,16 +124,17 @@ Use the `count: 2` key to create more objects at once.
 
 ### Stubbing
 
-Another opinionated format we use for stubs (`stub_fixture`). The gem supports stubbing both message chains and constants.
+The gem supports stubbing message chains, constants and http requests with the following keys.
 
 For message chains:
 
 - `class` for stubbed class
 - `chain` for messages chain
 - `arguments` (optional) for specific arguments
-- `actions` for an array of actions for consecutive invocations of the chain
-
-Every action either `return` some value, or `raise` some exception
+- `actions` for an array of actions for consecutive invocations of the chain with keys
+    - `return` for a value to be returned
+    - `raise` for an exception to be risen
+    - `repeate` for a number of invocations with this action
 
 For constants:
 
@@ -152,6 +153,7 @@ For http requests:
     - `status`
     - `body`
     - `headers`
+    - `repeate` for the number of times this response should be returned before switching to the next one
 
 ```yaml
 # ./stubs.yml
@@ -179,6 +181,7 @@ For http requests:
     - <%= profile_id %>
   actions:
     - return: true
+      repeate: 1 # this is the default value
     - raise: ActiveRecord::RecordNotFound
 
 - const: NOTIFIER_TIMEOUT_SEC
@@ -192,6 +195,7 @@ For http requests:
     password: bar
   responses:
     - status: 200 # for the first call
+      repeate: 1   # this is the default value, but you can set another one
     - status: 404 # for any other call
 
 - uri: htpps://example.com/foo # exact string!
@@ -230,6 +234,30 @@ With these helpers all the concrete settings can be extracted to fixtures.
 I find it especially helpful when I need to check different edge cases. Instead of polluting a specification with various parameters, I create the sub-folder with "input" and "output" fixtures for every case.
 
 Looking at the spec I can easily figure out the "structure" of expectation, while looking at fixtures I can check the concrete corner cases.
+
+## Single Source of Changes
+
+If you will, you can list all stubs and seeds at the one single file like
+
+```yaml
+# ./changes.yml
+---
+- type: user
+  params:
+    id: 1
+    name: Andrew
+
+- const: DEFAULT_USER_ID
+  value: 1
+```
+
+This fixture can be applied via `call_fixture` method just like we did above with `seed_fixture` and `stub_fixture`:
+
+```ruby
+before { call_fixture "#{__dir__}/changes.yml" }
+```
+
+In fact, since the `v0.2.0` all those methods are just the aliases of the `call_fixture`.
 
 ## License
 
