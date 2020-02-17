@@ -1,5 +1,6 @@
 class Fixturama::Loader
   #
+  # @private
   # The context of some fixture
   #
   class Context

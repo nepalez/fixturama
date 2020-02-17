@@ -1,5 +1,6 @@
 class Fixturama::Loader
   #
+  # @private
   # Wraps a value with a reference to its key
   # in the [Fixturama::Loader::Context]
   #

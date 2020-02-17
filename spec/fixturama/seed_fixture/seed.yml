@@ -9,8 +9,3 @@
   count: 3
   traits:
     - bar
-
-- type: foo
-  count: 0
-  traits:
-    - baz

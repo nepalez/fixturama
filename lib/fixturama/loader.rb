@@ -1,4 +1,5 @@
 #
+# @private
 # Load fixture with some options
 #
 class Fixturama::Loader
