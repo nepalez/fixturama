@@ -9,4 +9,5 @@
 /tmp/
 *.gem
 .rspec_status
+.ruby-version
 .idea/

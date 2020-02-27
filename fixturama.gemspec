@@ -13,7 +13,7 @@ Gem::Specification.new do |gem|
 
   gem.required_ruby_version = ">= 2.2"
 
-  gem.add_runtime_dependency "factory_bot", "~> 4.0"
+  gem.add_runtime_dependency "factory_bot", "~> 5.0"
   gem.add_runtime_dependency "rspec", "~> 3.0"
   gem.add_runtime_dependency "hashie", "~> 3.0"
   gem.add_runtime_dependency "webmock", "~> 3.0"
