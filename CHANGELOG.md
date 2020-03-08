@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.3.0] - [2020-03-08]
+
+### Added
+
+- Support for exception arguments (nepalez)
+
+```yaml
+---
+- class: API
+  chain: get_product
+  arguments:
+    - 1
+  actions:
+    - raise: API::NotFoundError
+      arguments: # <--- that's that
+        - "Cannot find a product by id: 1"
+```
+
+which would raise `API::NotFoundError.new("Cannot find a product by id: 1")`
+
 ## [0.2.0] - [2020-02-17]
 
 ### Added
@@ -229,3 +249,4 @@ This is a first public release with features extracted from production app.
 [0.0.7]: https://github.com/nepalez/fixturama/compare/v0.0.6...v0.0.7
 [0.1.0]: https://github.com/nepalez/fixturama/compare/v0.0.7...v0.1.0
 [0.2.0]: https://github.com/nepalez/fixturama/compare/v0.1.0...v0.2.0
+[0.3.0]: https://github.com/nepalez/fixturama/compare/v0.2.0...v0.3.0
