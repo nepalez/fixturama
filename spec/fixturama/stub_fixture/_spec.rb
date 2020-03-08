@@ -22,7 +22,10 @@ RSpec.describe "stub_fixture" do
       let(:arguments) { [0] }
 
       it "raises an exception" do
-        expect { subject }.to raise_error ArgumentError
+        expect { subject }.to raise_error do |ex|
+          expect(ex).to be_kind_of(ArgumentError)
+          expect(ex.message).to eq "Something got wrong"
+        end
       end
     end
 
@@ -59,7 +62,7 @@ RSpec.describe "stub_fixture" do
     end
 
     context "with partially defined options" do
-      subject { Payment.new.pay(10, overdraft: true, notiy: true) }
+      subject { Payment.new.pay(10, overdraft: true, notify: true) }
 
       it "uses the stub" do
         expect(subject).to eq(-5)

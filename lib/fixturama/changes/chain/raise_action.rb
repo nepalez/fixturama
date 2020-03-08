@@ -15,16 +15,24 @@ class Fixturama::Changes::Chain
     def initialize(**options)
       @error  = error_from options
       @repeat = repeat_from options
+    rescue StandardError => err
+      raise Fixturama::FixtureError.new("an exception class", options, err)
     end
 
     def error_from(options)
-      case value = options[:raise]
-      when NilClass, TrueClass, "true" then StandardError
-      when Class then value < Exception ? value : raise("Not an exception")
+      klass  = klass_from(options)
+      params = options[:arguments]
+      params.is_a?(Array) ? klass.new(*params) : klass
+    end
+
+    def klass_from(options)
+      klass = case value = options[:raise]
+              when NilClass, TrueClass, "true" then StandardError
+              when Class then value
       else Kernel.const_get(value)
       end
-    rescue StandardError => err
-      raise Fixturama::FixtureError.new("an exception class", options, err)
+
+      klass < Exception ? klass : raise("#{klass} is not an exception")
     end
 
     def repeat_from(options)

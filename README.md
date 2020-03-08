@@ -183,6 +183,8 @@ For http requests:
     - return: true
       repeate: 1 # this is the default value
     - raise: ActiveRecord::RecordNotFound
+      arguments:
+        - "Profile with id: 1 not found" # for error message
 
 - const: NOTIFIER_TIMEOUT_SEC
   value: 10
