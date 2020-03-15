@@ -7,6 +7,7 @@ module Fixturama
     require_relative "changes/base"
     require_relative "changes/chain"
     require_relative "changes/const"
+    require_relative "changes/env"
     require_relative "changes/request"
     require_relative "changes/seed"
 
@@ -20,6 +21,7 @@ module Fixturama
       class: Chain,
       const: Const,
       count: Seed,
+      env: Env,
       headers: Request,
       http_method: Request,
       object: Chain,
@@ -31,7 +33,6 @@ module Fixturama
       type: Seed,
       uri: Request,
       url: Request,
-      value: Const,
     }.freeze
 
     # Adds new change to the registry

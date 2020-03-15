@@ -141,6 +141,11 @@ For constants:
 - `const` for stubbed constant
 - `value` for a value of the constant
 
+For environment variables:
+
+- `env` for the name of a variable
+  `value` for a value of the variable
+
 For http requests:
 
 - `url` or `uri` for the URI of the request (treats values like `/.../` as regular expressions)
@@ -186,8 +191,13 @@ For http requests:
       arguments:
         - "Profile with id: 1 not found" # for error message
 
+# Here we stubbing a constant
 - const: NOTIFIER_TIMEOUT_SEC
   value: 10
+
+# This is a stub for ENV['DEFAULT_EMAIL']
+- env: DEFAULT_EMAIL
+  value: foo@example.com
 
 # Examples for stubbing HTTP
 - uri: /example.com/foo/ # regexp!

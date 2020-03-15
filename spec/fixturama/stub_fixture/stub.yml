@@ -73,3 +73,9 @@
   responses:
     - status: 200
     - status: 404 # for any request except for the first one
+
+- env: FOO
+  value: oof
+
+- env: BAR
+  value: rab

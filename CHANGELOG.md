@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## Not released
+
+### Added
+
+- Support for stubbing ENV variables (nepalez)
+
+```yaml
+---
+- env: GOOGLE_CLOUD_KEY
+  value: foo
+
+- env: GOOGLE_CLOUD_PASSWORD
+  value: bar
+```
+
+This would stub selected variables only, not touching the others
+
 ## [0.3.0] - [2020-03-08]
 
 ### Added

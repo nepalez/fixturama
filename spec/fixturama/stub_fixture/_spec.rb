@@ -97,6 +97,24 @@ RSpec.describe "stub_fixture" do
     end
   end
 
+  context "when ENV stubbed" do
+    before do
+      ENV["FOO"] = "foo"
+      ENV["BAR"] = "bar"
+      ENV["QUX"] = "qux"
+      stub_fixture "#{__dir__}/stub.yml"
+    end
+
+    it "stubs the ENV" do
+      expect(ENV["FOO"]).to eq "oof"
+      expect(ENV["BAR"]).to eq "rab"
+    end
+
+    it "preserves unstubbed ENV" do
+      expect(ENV["QUX"]).to eq "qux"
+    end
+  end
+
   context "when http request stubbed" do
     before { stub_fixture "#{__dir__}/stub.yml" }
 
