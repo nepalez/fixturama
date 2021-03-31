@@ -1,4 +1,6 @@
 ---
+require: rubocop-packaging
+
 AllCops:
   DisplayCopNames:    true
   DisplayStyleGuide:  true
