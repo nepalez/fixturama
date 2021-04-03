@@ -14,7 +14,7 @@ class Fixturama::Changes
     # @return [Fixturama::Changes::Base]
     def merge(other)
       # By default just take the other change if applicable
-      other.class == self.class && other.key == key ? other : self
+      other.instance_of?(self.class) && other.key == key ? other : self
     end
 
     # @abstract

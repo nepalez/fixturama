@@ -14,7 +14,7 @@ class Fixturama::Changes
     end
 
     def merge(other)
-      return self unless other.class == self.class && other.key == key
+      return self unless other.instance_of?(self.class) && other.key == key
 
       tap { @arguments = (other.arguments | arguments).sort_by(&:order) }
     end

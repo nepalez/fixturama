@@ -5,7 +5,8 @@ AllCops:
   DisplayCopNames:    true
   DisplayStyleGuide:  true
   StyleGuideCopsOnly: true
-  TargetRubyVersion:  2.3
+  TargetRubyVersion:  2.4
+  NewCops: enable
 
 Layout/LineLength:
   AllowHeredoc: true
@@ -13,7 +14,11 @@ Layout/LineLength:
   URISchemes:
     - http
     - https
-  
+
+Lint/ConstantDefinitionInBlock:
+  Exclude:
+    - spec/**/*.*
+
 Style/ClassAndModuleChildren:
   Enabled: false
 
