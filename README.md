@@ -99,6 +99,38 @@ This feature can also be useful to produce a "partially defined" fixtures with [
 subject { load_fixture "#{__dir__}/data.yml", user: kind_of(ActiveRecord::Base) }
 ```
 
+Since the v0.5.0 we support another way to serialize PORO objects in fixtures. Just wrap them to the `object()` method:
+
+```yaml
+---
+:account: <%= object(user) %>
+```
+
+This time you don't need sending objects explicitly.
+
+```ruby
+RSpec.describe "example" do
+    subject { load_fixture "#{__dir__}/data.yml" }
+    
+    let(:user) { FactoryBot.create(:user) }
+    
+    # The same object will be returned
+    it { is_expected.to eq(account: user) }
+end
+```
+
+Under the hood we use `Marshal.dump` and `Marshal.restore` to serialize and deserialize the object back.
+
+**Notice**, that deserialization creates a new instance of the object which is not equivalent to the source (`user` in the example above)!
+In most cases this is enough. For example, you can provide matchers like:
+
+```yaml
+---
+number: <%= object(be_positive) %>
+```
+
+The loaded object would contain `{ "number" => be_positive }`.
+
 ### Seeding
 
 The seed (`seed_fixture`) file should be a YAML/JSON with opinionated parameters, namely:

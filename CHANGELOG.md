@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.5.0] - [2021-04-03]
+
+### Added
+
+- Support for <de>serialization PORO objects (nepalez)
+
+```yaml
+# target.yml
+---
+number: <%= object(be_positive) %>
+```
+
+```ruby
+RSpec.describe "something" do
+    subject { { "number" => 42 } }
+    
+    # no explicit params is needed here
+    let(:target) { load_fixture "target.yml" }
+    
+    it { is_expected.to match(target) }
+end
+```
+
 ## [0.4.1] - [2021-03-31]
 
 ### Fixed
@@ -275,3 +298,4 @@ This is a first public release with features extracted from production app.
 [0.3.0]: https://github.com/nepalez/fixturama/compare/v0.2.0...v0.3.0
 [0.4.0]: https://github.com/nepalez/fixturama/compare/v0.3.0...v0.4.0
 [0.4.1]: https://github.com/nepalez/fixturama/compare/v0.4.0...v0.4.1
+[0.5.0]: https://github.com/nepalez/fixturama/compare/v0.4.1...v0.5.0
