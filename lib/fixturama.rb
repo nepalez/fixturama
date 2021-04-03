@@ -42,7 +42,7 @@ module Fixturama
   # @param (see #read_fixture)
   # @return [Object]
   def load_fixture(path, **options)
-    Loader.new(path, options).call
+    Loader.new(self, path, options).call
   end
 
   # @!method call_fixture(path, options)

@@ -24,6 +24,18 @@ RSpec.describe "load_fixture" do
     it { is_expected.to eq expected }
   end
 
+  context "object in YAML" do
+    subject { load_fixture("#{__dir__}/object.yaml") }
+
+    before { Test::Foobar = Struct.new(:foo, :bar) }
+
+    # accessible from object.yaml as object(foobar)
+    let!(:foobar) { Test::Foobar.new(foo: 1, bar: 2) }
+    let(:expected) { { "foo" => { "bar" => foobar } } }
+
+    it { is_expected.to eq expected }
+  end
+
   context "JSON" do
     subject { load_fixture("#{__dir__}/data.json", id: 42) }
 

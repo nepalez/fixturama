@@ -15,7 +15,8 @@ class Fixturama::Loader
 
   private
 
-  def initialize(path, opts = {})
+  def initialize(example, path, opts = {})
+    @example = example
     @path = path
     @opts = opts.to_h
   end
@@ -33,7 +34,7 @@ class Fixturama::Loader
   end
 
   def context
-    @context ||= (yaml? || json?) ? Context.new(@opts) : Hashie::Mash.new(@opts)
+    @context ||= Context.new(@example, @opts)
   end
 
   def content
@@ -71,6 +72,8 @@ class Fixturama::Loader
   # @param  [String] string
   # @return [Object]
   def finalize_string(string)
+    Marshal.restore(string)
+  rescue TypeError, RuntimeError
     key = string.match(Value::MATCHER)&.captures&.first&.to_s
     key ? context[key] : string
   end

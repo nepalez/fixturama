@@ -1,9 +1,13 @@
 class Fixturama::Loader
   #
   # @private
-  # The context of some fixture
+  # The context bound to some fixture
   #
   class Context
+    def object(value)
+      Marshal.dump(value).dump
+    end
+
     # Get value by key
     # @param  [#to_s] key
     # @return [Object]
@@ -13,7 +17,8 @@ class Fixturama::Loader
 
     private
 
-    def initialize(values)
+    def initialize(example, values)
+      @example = example
       @values = \
         Hash(values).each_with_object(Hashie::Mash.new) do |(key, val), obj|
           obj[key] = Value.new(key, val)
@@ -21,11 +26,14 @@ class Fixturama::Loader
     end
 
     def respond_to_missing?(name, *)
-      @values.respond_to?(name) || super
+      @values.key?(name) || @example.respond_to?(name) || super
     end
 
-    def method_missing(name, *args)
-      @values.respond_to?(name) ? @values.send(name, *args) : super
+    def method_missing(name, *args, &block)
+      return @values[name] if @values.key?(name)
+      return super unless @example.respond_to?(name)
+
+      @example.send(name, *args, &block)
     end
   end
 end
