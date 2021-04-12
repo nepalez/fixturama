@@ -73,7 +73,7 @@ class Fixturama::Loader
   # @return [Object]
   def finalize_string(string)
     Marshal.restore(string)
-  rescue TypeError, RuntimeError
+  rescue StandardError
     key = string.match(Value::MATCHER)&.captures&.first&.to_s
     key ? context[key] : string
   end
