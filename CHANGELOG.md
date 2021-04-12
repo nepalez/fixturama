@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.5.1] - [2021-04-12]
+
+### Fixed
+
+- Marshalling of short strings (nepalez)
+
 ## [0.5.0] - [2021-04-03]
 
 ### Added
@@ -299,3 +305,4 @@ This is a first public release with features extracted from production app.
 [0.4.0]: https://github.com/nepalez/fixturama/compare/v0.3.0...v0.4.0
 [0.4.1]: https://github.com/nepalez/fixturama/compare/v0.4.0...v0.4.1
 [0.5.0]: https://github.com/nepalez/fixturama/compare/v0.4.1...v0.5.0
+[0.5.1]: https://github.com/nepalez/fixturama/compare/v0.5.0...v0.5.1
